@@ -318,6 +318,24 @@ at StackOverflowErrorExample.print(StackOverflowErrorExample.java:6)
 <p>当要把除内存之外的资源恢复到它们的初始状态时，就要用到 finally 子句。这种需要清理的资源包括：已经打开的文件或网络连接，在屏幕上画的图形，甚至可以是外部世界的某个开关。</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="26" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
+<h1>自定义异常</h1>
+<pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DividedByZeroException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Exception</span></span>{
+    DividedByZeroException(){
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">&quot;divided by zero&quot;</span>);
+    }
+}
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Calculator</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">div</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> <span class="hljs-keyword">throws</span> DividedByZeroException </span>{
+        <span class="hljs-keyword">if</span> (b == <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DividedByZeroException();
+        }
+        <span class="hljs-keyword">return</span> a / b;
+    }
+    ...
+}
+</span></span></foreignObject></svg></code></pre>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="27" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
 <h1>多重捕获</h1>
 <pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SameHandler</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">x</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Except1, Except2, Except3, Except4 </span>{}
@@ -338,7 +356,7 @@ at StackOverflowErrorExample.print(StackOverflowErrorExample.java:6)
 }
 </span></span></foreignObject></svg></code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="27" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="28" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
 <h1>组合捕获</h1>
 <pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MultiCatch</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">x</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Except1, Except2, Except3, Except4 </span>{}
@@ -356,7 +374,7 @@ at StackOverflowErrorExample.print(StackOverflowErrorExample.java:6)
 <p>Since Java 7</p>
 </blockquote>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="28" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="29" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
 <h1>异常匹配</h1>
 <pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SuperException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Exception</span> </span>{ }
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SubException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SuperException</span> </span>{ }
@@ -372,7 +390,7 @@ at StackOverflowErrorExample.print(StackOverflowErrorExample.java:6)
 }
 </span></span></foreignObject></svg></code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="29" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="30" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
 <h1>栈轨迹</h1>
 <pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Calculator</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
@@ -390,30 +408,12 @@ at StackOverflowErrorExample.print(StackOverflowErrorExample.java:6)
         at Calculator.main(Calculator.java:10)
 </span></span></foreignObject></svg></code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="30" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="31" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
 <h1>重新抛出</h1>
 <p>重抛异常会把异常抛给上一级环境中的异常处理程序，同一个 try 块的后续 catch 子句将被忽略。此外，异常对象的所有信息都得以保持，所以高一级环境中捕获此异常的处理程序可以从这个异常对象中得到所有信息。</p>
 <pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-keyword">catch</span>(Exception e) {
     System.out.println(<span class="hljs-string">&quot;An exception was thrown&quot;</span>);
     <span class="hljs-keyword">throw</span> e;
-}
-</span></span></foreignObject></svg></code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="31" data-marpit-pagination-total="35" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
-<h1>自定义异常</h1>
-<pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DividedByZeroException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Exception</span></span>{
-    DividedByZeroException(){
-        <span class="hljs-keyword">super</span>(<span class="hljs-string">&quot;divided by zero&quot;</span>);
-    }
-}
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Calculator</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">div</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-        <span class="hljs-keyword">if</span> (b == <span class="hljs-number">0</span>) {
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DividedByZeroException();
-        }
-        <span class="hljs-keyword">return</span> a / b;
-    }
-    ...
 }
 </span></span></foreignObject></svg></code></pre>
 </section>
