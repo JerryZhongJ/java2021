@@ -913,14 +913,18 @@ Producing D ...
 <h2>还是看个例子</h2>
 <pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Car</span> </span>{
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> waxOn = <span class="hljs-keyword">false</span>;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">waxed</span><span class="hljs-params">()</span> </span>{
-        waxOn = <span class="hljs-keyword">true</span>; <span class="hljs-comment">// Ready to buff</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">wax</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">&quot;Wax On by &quot;</span> + Thread.currentThread().getName());
+        waxOn = <span class="hljs-keyword">true</span>;
         notifyAll();
     }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buffed</span><span class="hljs-params">()</span> </span>{
-        waxOn = <span class="hljs-keyword">false</span>; <span class="hljs-comment">// Ready for another coat of wax</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buff</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">&quot;Wax Off by &quot;</span> + Thread.currentThread().getName());
+        waxOn = <span class="hljs-keyword">false</span>;
         notifyAll();
     }
+
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">waitForWaxing</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException </span>{
         <span class="hljs-keyword">while</span> (waxOn == <span class="hljs-keyword">false</span>)
             wait();
@@ -935,18 +939,20 @@ Producing D ...
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="60" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="60" data-marpit-pagination-total="82" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
 <pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WaxOn</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>{
     <span class="hljs-keyword">private</span> Car car;
+    <span class="hljs-keyword">private</span> String name;
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WaxOn</span><span class="hljs-params">(Car c)</span> </span>{
-        car = c;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WaxOn</span><span class="hljs-params">(Car c, String name)</span> </span>{
+        <span class="hljs-keyword">this</span>.car = c;
+        <span class="hljs-keyword">this</span>.name = name;
     }
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+        Thread.currentThread().setName(name);
         <span class="hljs-keyword">try</span> {
             <span class="hljs-keyword">while</span> (!Thread.interrupted()) {
-                System.out.println(<span class="hljs-string">&quot;Wax On! &quot;</span>);
-                TimeUnit.MILLISECONDS.sleep(<span class="hljs-number">200</span>);
-                car.waxed();
                 car.waitForBuffing();
+                TimeUnit.MILLISECONDS.sleep(<span class="hljs-number">200</span>);
+                car.wax();
             }
         } <span class="hljs-keyword">catch</span> (InterruptedException e) {
             System.out.println(<span class="hljs-string">&quot;Exiting via interrupt&quot;</span>);
@@ -954,24 +960,25 @@ Producing D ...
         System.out.println(<span class="hljs-string">&quot;Ending Wax On task&quot;</span>);
     }
 }
-
 </span></span></foreignObject></svg></code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="61" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="61" data-marpit-pagination-total="82" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
 <pre><code class="language-java"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WaxOff</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>{
     <span class="hljs-keyword">private</span> Car car;
+    <span class="hljs-keyword">private</span> String name;
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WaxOff</span><span class="hljs-params">(Car c)</span> </span>{
-        car = c;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WaxOff</span><span class="hljs-params">(Car c, String name)</span> </span>{
+        <span class="hljs-keyword">this</span>.car = c;
+        <span class="hljs-keyword">this</span>.name = name;
     }
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+        Thread.currentThread().setName(name);
         <span class="hljs-keyword">try</span> {
             <span class="hljs-keyword">while</span> (!Thread.interrupted()) {
                 car.waitForWaxing();
-                System.out.println(<span class="hljs-string">&quot;Wax Off! &quot;</span>);
-                TimeUnit.MILLISECONDS.sleep(<span class="hljs-number">200</span>);
-                car.buffed();
+                TimeUnit.MILLISECONDS.sleep(<span class="hljs-number">500</span>);
+                car.buff();
             }
         } <span class="hljs-keyword">catch</span> (InterruptedException e) {
             System.out.println(<span class="hljs-string">&quot;Exiting via interrupt&quot;</span>);
@@ -986,8 +993,10 @@ Producing D ...
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
         Car car = <span class="hljs-keyword">new</span> Car();
         ExecutorService exec = Executors.newCachedThreadPool();
-        exec.execute(<span class="hljs-keyword">new</span> WaxOff(car));
-        exec.execute(<span class="hljs-keyword">new</span> WaxOn(car));
+        exec.execute(<span class="hljs-keyword">new</span> WaxOff(car, <span class="hljs-string">&quot;A-OFF&quot;</span>));
+        exec.execute(<span class="hljs-keyword">new</span> WaxOn(car, <span class="hljs-string">&quot;B-ON&quot;</span>));
+        exec.execute(<span class="hljs-keyword">new</span> WaxOn(car, <span class="hljs-string">&quot;C-ON&quot;</span>));
+
         TimeUnit.SECONDS.sleep(<span class="hljs-number">5</span>); <span class="hljs-comment">// Run for a while...</span>
         exec.shutdownNow(); <span class="hljs-comment">// Interrupt all tasks</span>
     }
@@ -1083,7 +1092,7 @@ Producing D ...
 </span></span></span></foreignObject></svg></code></pre>
 <p><small>A synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes.</p>
 </small>
-https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html">https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html</a></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="71" data-paginate="true" data-background-color="#fff" data-theme="gaia" data-marpit-pagination="71" data-marpit-pagination-total="82" style="--paginate:true;--background-color:#fff;--theme:gaia;background-color:#fff;background-image:none;">
 <h1>用法</h1>
